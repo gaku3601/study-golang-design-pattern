@@ -1,34 +1,34 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/gaku3601/study-golang-design-pattern/07-prototype/paper"
-)
-
 func main() {
-	prototype := paper.NewPaper("雪の結晶")
-	draw(prototype)
-	cut(prototype)
-	fmt.Println(prototype)
-	//ここまででプロトタイプ完成
+	manager := &Manager{}
+	//prototypeの作成
+	outputText := NewOutputText("-")
+	outputText2 := NewOutputText("+")
+	manager.register("gakubox", outputText)
+	manager.register("gakubox2", outputText2)
 
-	//複製処理
-	paper1 := prototype.CreateClone()
-	paper1.Name = "雪の結晶2"
-	paper2 := prototype.CreateClone()
-	paper2.Name = "雪の結晶3"
+	doubleText := NewDoubleText("(((((((((((っ･ω･)っ ﾌﾞｰﾝ")
+	manager.register("gakubox3", doubleText)
 
-	fmt.Println(paper1)
-	fmt.Println(paper2)
-}
+	//prototypeから実態を生成する
+	p1 := manager.create("gakubox")
+	p1.use("gaku")
+	p2 := manager.create("gakubox2")
+	p2.use("gakugaku")
+	p3 := manager.create("gakubox")
+	p3.use("gakugakugaku")
 
-func draw(paper *paper.Paper) {
-	//時間のかかる処理
-	paper.DrawFlg = true
-}
+	p4 := manager.create("gakubox3")
+	p4.use("test")
 
-func cut(paper *paper.Paper) {
-	//時間のかかる処理
-	paper.CutFlg = true
+	/*
+		出力結果
+		-gaku-
+		+gakugaku+
+		-gakugakugaku-
+		(((((((((((っ･ω･)っ ﾌﾞｰﾝtest(((((((((((っ･ω･)っ ﾌﾞｰﾝ
+		(((((((((((っ･ω･)っ ﾌﾞｰﾝtest(((((((((((っ･ω･)っ ﾌﾞｰﾝ
+	*/
+
 }
